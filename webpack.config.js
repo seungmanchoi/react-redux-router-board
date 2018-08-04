@@ -10,8 +10,8 @@ module.exports = {
   ],
   mode: 'development',
   output: {
-    path: __dirname + '/public/',
-    filename: 'bundle.js'
+    path: __dirname + '/public/dist/',
+    filename: 'js/bundle.js'
   },
 
   module: {
@@ -27,39 +27,33 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
+        test: /\.(scss)$/,
         use: [
-          { loader: "style-loader" },
           {
-            loader: "css-loader",
+            // Adds CSS to the DOM by injecting a `<style>` tag
+            loader: 'style-loader'
+          },
+          {
+            // Interprets `@import` and `url()` like `import/require()` and will resolve them
+            loader: 'css-loader'
+          },
+          {
+            // Loader for webpack to process CSS with PostCSS
+            loader: 'postcss-loader',
             options: {
-              modules: true,
-              importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]',
+              plugins: function () {
+                return [
+                  require('autoprefixer')
+                ];
+              }
             }
           },
-        ],
-      },
-      {
-        test: /\.(scss)$/,
-        use: [{
-          loader: 'style-loader', // inject CSS to page
-        }, {
-          loader: 'css-loader', // translates CSS into CommonJS modules
-        }, {
-          loader: 'postcss-loader', // Run post css actions
-          options: {
-            plugins: function () { // post css plugins, can be exported to postcss.config.js
-              return [
-                require('precss'),
-                require('autoprefixer')
-              ];
-            }
+          {
+            // Loads a SASS/SCSS file and compiles it to CSS
+            loader: 'sass-loader'
           }
-        }, {
-          loader: 'sass-loader' // compiles Sass to CSS
-        }]
-      },
+        ]
+      }
     ]
   },
 
