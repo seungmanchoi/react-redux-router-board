@@ -102,8 +102,6 @@ app.get('/api/board', (req, res) => {
         connection.end();
       });
     })
-
-
   });
 });
 
