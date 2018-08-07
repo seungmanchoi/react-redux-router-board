@@ -1,7 +1,26 @@
 import React, { Component, Fragment } from 'react';
+import ListItem from './ListItem';
 
 export default class ListTable extends Component {
+  componentDidMount() {
+    this.props.getListData();
+  }
+
   render () {
+    console.log('this.props.listData.list', this.props.listData.list);
+
+    // if(this.props.listData.loading) {
+    //   return (
+    //    <LoadingSpinner />
+    //   )
+    // }
+
+    // if(this.props.listData.error) {
+    //   return (
+    //     <ErroComponent message={this.props.listData.error.message} />
+    //   )
+    // }
+
     return (
       <Fragment>
         <table className="table">
@@ -15,41 +34,16 @@ export default class ListTable extends Component {
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <th scope="row" className="text-center">1</th>
-            <td><a href="#">게시글 샘플 데이터 입니다.</a></td>
-            <td className="text-center">소보로</td>
-            <td className="text-center">2018-08-02 20:50</td>
-            <td className="text-center">77</td>
-          </tr>
-          <tr>
-            <th scope="row" className="text-center">2</th>
-            <td><a href="#">게시글 샘플 데이터 입니다.</a></td>
-            <td className="text-center">소보로</td>
-            <td className="text-center">2018-08-02 20:50</td>
-            <td className="text-center">77</td>
-          </tr>
-          <tr>
-            <th scope="row" className="text-center">3</th>
-            <td><a href="#">게시글 샘플 데이터 입니다.</a></td>
-            <td className="text-center">소보로</td>
-            <td className="text-center">2018-08-02 20:50</td>
-            <td className="text-center">77</td>
-          </tr>
-          <tr>
-            <th scope="row" className="text-center">4</th>
-            <td><a href="#">게시글 샘플 데이터 입니다.</a></td>
-            <td className="text-center">소보로</td>
-            <td className="text-center">2018-08-02 20:50</td>
-            <td className="text-center">77</td>
-          </tr>
-          <tr>
-            <th scope="row" className="text-center">5</th>
-            <td><a href="#">게시글 샘플 데이터 입니다.</a></td>
-            <td className="text-center">소보로</td>
-            <td className="text-center">2018-08-02 20:50</td>
-            <td className="text-center">77</td>
-          </tr>
+          {
+            //list = [{ id:1, title:'', content: '' }, { id:1, title:'', content: '' }, { id:1, title:'', content: '' }]
+
+            this.props.listData.list.map((row) => {
+              return (
+                <ListItem { ...row } />
+              )
+            })
+          }
+
           </tbody>
         </table>
       </Fragment>
