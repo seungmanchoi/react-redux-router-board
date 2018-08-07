@@ -1,5 +1,5 @@
 # React Redux Router Board
-Simple CRUD example build using express, mysql, react, redux, react-router, webpack
+Simple React Board example build using express, mysql, react, redux, react-router, webpack
 
 ## Installation
 * npm install
