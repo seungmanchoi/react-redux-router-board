@@ -8,7 +8,8 @@ import viewReducer from './viewReducer';
 
 const rootReducer = combineReducers({
   router,
-  listData: listReducer
+  listData: listReducer,
+  view: viewReducer
   // createPage: createReducer,
   // updatePage: updateReducer,
   // listPage: listReducer,

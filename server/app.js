@@ -72,7 +72,6 @@ app.get('/api/board', (req, res) => {
   let sql_total = `
     SELECT count(*) as view_count 
     FROM board
-    Limit 1
   `;
 
   if(page_num) {

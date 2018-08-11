@@ -11,6 +11,7 @@ const SERVER_PORT = '8800';
 const mapStateToProps = (state) => {
   return {
     listData: state.listData,
+    router: state.router
   }
 }
 

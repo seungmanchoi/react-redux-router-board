@@ -2,12 +2,12 @@ import React, { Component, Fragment } from 'react';
 import ListItem from './ListItem';
 
 export default class ListTable extends Component {
+
   componentDidMount() {
     this.props.getListData();
   }
 
   render () {
-    console.log('this.props.listData.list', this.props.listData.list);
 
     // if(this.props.listData.loading) {
     //   return (
@@ -37,9 +37,9 @@ export default class ListTable extends Component {
           {
             //list = [{ id:1, title:'', content: '' }, { id:1, title:'', content: '' }, { id:1, title:'', content: '' }]
 
-            this.props.listData.list.map((row) => {
+            this.props.listData.list.map((row, key) => {
               return (
-                <ListItem { ...row } />
+                <ListItem { ...row } key={ key } linkToViewPage={this.linkToViewPage} />
               )
             })
           }
