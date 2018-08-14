@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import ListTable from '../components/ListTable';
 import { FETCH, FETCH_SUCCESS, FETCH_FAILURE } from "../actions/listAction";
 import axios from 'axios';
+import { getBoardList } from "../utils/httpRequest";
 // import dotenv from 'dotenv';
 
 //const { SERVER_HOST='127.0.0.1', SERVER_PORT='8800' } = dotenv.config().parsed;
@@ -17,45 +18,43 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListData: () => {
+    getListData: async () => {
       dispatch({
         type: FETCH
       });
 
-      axios.get(`http://${SERVER_HOST}:${SERVER_PORT}/api/board`, {crossDomain: true, responseType: 'json', headers: {'Content-Type': 'application/json'}})
-        .then((result) => {
-          const list = result.data.response.list;
-          const success = result.data.success;
+      try {
+        const result = await getBoardList();
+        const list = result.data.response.list;
+        const success = result.data.success;
 
-          console.log(success);
-
-          if(success) {
-            dispatch({
-              type: FETCH_SUCCESS,
-              payload: {
-                list
-              }
-            });
-          } else {
-            dispatch({
-              type: FETCH_FAILURE,
-              payload: {
-                error: {
-                  message: result.msg
-                }
-              }
-            })
-          }
-
-        })
-        .catch((response) => {
+        if(success) {
+          dispatch({
+            type: FETCH_SUCCESS,
+            payload: {
+              list
+            }
+          });
+        } else {
           dispatch({
             type: FETCH_FAILURE,
             payload: {
-              error: response
+              error: {
+                message: result.msg
+              }
             }
           })
-        });
+        }
+      } catch(e) {
+        //e data 확인
+
+        dispatch({
+          type: FETCH_FAILURE,
+          payload: {
+            error: response
+          }
+        })
+      }
     },
   }
 }

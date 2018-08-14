@@ -5,7 +5,7 @@ import {
   UPDATE_VIEW_COUNT, UPDATE_VIEW_COUNT_SUCCESS
 } from "../actions/viewAction";
 import axios from 'axios';
-
+import { getBoard } from "../utils/httpRequest";
 
 
 //.dotenv 적용
@@ -17,24 +17,26 @@ const SERVER_PORT = '8800';
 const mapStateToProps = (state) => {
   return {
     view: state.view,
-    router: state.router
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getViewData: (id) => {
-      axios.get(`http://${SERVER_HOST}:${SERVER_PORT}/api/board/${id}`, {crossDomain: true, responseType: 'json', headers: {'Content-Type': 'application/json'}})
-        .then((result) => {
+    getViewData: async (id) => {
+      try {
+        const result = await getBoard(id);
+        const viewData = result.data.response;
 
-          const viewData = result.data.response;
-          dispatch({
-            type: FETCH_VIEW_SUCCESS,
-            payload: {
-              viewData
-            }
-          });
+        dispatch({
+          type: FETCH_VIEW_SUCCESS,
+          payload: {
+            viewData
+          }
         });
+
+      } catch (e) {
+        console.error('error!');
+      }
     },
     updateViewCount: (id) => {
       const storageId = localStorage.getItem('view_id');

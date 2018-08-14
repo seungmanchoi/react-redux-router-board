@@ -1,8 +1,8 @@
-const dotenv = require('dotenv');
 const port = process.env.PORT || 3000;
 const publicPath = `http://localhost:${port}/`;
 const path = require('path');
 const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: [
@@ -22,7 +22,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['es2015', 'react', 'stage-0']
+            presets: ['es2017', 'react', 'stage-0']
           }
         }
       },
@@ -64,7 +64,8 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new Dotenv()
   ],
 
   devServer: {
