@@ -9,10 +9,9 @@ import { getBoardList } from "../utils/httpRequest";
 const SERVER_HOST = '127.0.0.1';
 const SERVER_PORT = '8800';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    listData: state.listData,
-    router: state.router
+    listData: state.listData
   }
 }
 
@@ -51,7 +50,7 @@ const mapDispatchToProps = (dispatch) => {
         dispatch({
           type: FETCH_FAILURE,
           payload: {
-            error: response
+            error: e
           }
         })
       }

@@ -1,28 +1,65 @@
 import React, { Component, Fragment } from 'react';
-
+import Create from '../components/Create';
+import PropTypes from 'proptypes';
+import { createBoard } from '../utils/httpRequest';
 export default class BoardCreatePage extends Component {
+
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
+  constructor() {
+    super();
+
+    this.state = {
+      title: '',
+      content: '',
+      user_name: ''
+    };
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      title: '',
+      content: '',
+      user_name: ''
+    })
+  }
+
+  updateFields(fieldName, value) {
+    this.setState({
+      [fieldName]: value
+    });
+  }
+
+  async createBoard() {
+    try {
+      const { title, content, user_name } = this.state;
+      const result = await createBoard({title, content, user_name});
+      const success = result.data.success;
+
+      if(success) {
+        alert('등록되었습니다.');
+        this.context.router.history.push('/');
+      }
+    } catch(e) {
+      console.error('error!', e);
+    }
+  }
+
   render() {
     return (
       <Fragment>
-        <div id="board_content">
-          <form>
-            <div className="form-group">
-              <label for="title">제목</label>
-              <input type="text" className="form-control" id="title" placeholder="제목을 입력하세요." />
-            </div>
-            <div className="form-group">
-              <label for="content">내용</label>
-              <textarea id="content" className="form-control" rows="3"></textarea>
-            </div>
-            <div className="form-group">
-              <label for="title">작성자</label>
-              <input type="text" className="form-control" id="user_name" placeholder="작성자명" />
-            </div>
-          </form>
-        </div>
+        <Create
+          title={ this.state.title }
+          content={ this.state.content }
+          user_name={ this.state.user_name }
+          updateFields={ this.updateFields.bind(this) }/>
+
         <div id="board_bottom" className="float-right">
-          <button type="button" className="btn btn-outline-dark btn-sm">목록</button>
-          <button type="button" className="btn btn-outline-primary btn-sm">등록</button>
+          <button type="button" className="btn btn-outline-dark btn-sm" onClick={ () => { this.context.router.history.push('/list') } }>목록</button>
+          <button type="button" className="btn btn-outline-primary btn-sm"
+                  onClick={ this.createBoard.bind(this) }>등록</button>
         </div>
       </Fragment>
     )

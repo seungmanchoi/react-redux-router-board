@@ -74,6 +74,8 @@ app.get('/api/board', (req, res) => {
     FROM board
   `;
 
+  sql += ` ORDER BY created_at DESC`;
+
   if(page_num) {
     sql += ` LIMIT ${offset}, ${page_size}`;
   }

@@ -18,9 +18,9 @@ export const getBoard = async (id) => {
     );
 };
 
-export const getBoardList = async () => {
+export const getBoardList = async ({ pageNum }) => {
   return await axios.get(
-    `http://${SERVER_HOST}:${SERVER_PORT}/api/board`,
+    `http://${SERVER_HOST}:${SERVER_PORT}/api/board?page_num=${pageNum || 1}`,
     {
       crossDomain: true,
       responseType: 'json',
@@ -40,3 +40,20 @@ export const updateBoard = async ({ id, title, content }) => {
   })
 }
 
+export const createBoard = async ({ title, content, user_name }) => {
+  return await axios.post(`http://${SERVER_HOST}:${SERVER_PORT}/api/board`,{ title, content, user_name }, {
+    responseType: 'json',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+}
+
+export const requestDeleteBoard = async (id) => {
+  return await axios.delete(`http://${SERVER_HOST}:${SERVER_PORT}/api/board/${id}`, {
+    responseType: 'json',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+}

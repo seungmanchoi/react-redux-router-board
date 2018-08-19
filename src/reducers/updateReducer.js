@@ -18,7 +18,6 @@ const INITIAL_STATE = {
   title: '',
   content: '',
   user_name: '',
-  updated: false
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -26,7 +25,7 @@ export default function(state = INITIAL_STATE, action) {
     case FETCH_UPDATE_DATA_SUCCESS:
       return { ...state, ...action.payload.updateData }
     case UPDATE_BOARD_SUCCESS:
-      return { ...state, updated: true }
+      return { ...state }
     default:
       return state;
   }

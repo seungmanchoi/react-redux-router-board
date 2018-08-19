@@ -38,34 +38,30 @@ export default class Update extends Component {
     const id = this.props.id;
     const { title, content } = this.state;
 
-    this.props.updateBoard({id, title, content});
+    this.props.updateBoard({id, title, content}, this.context.router);
   }
 
   render () {
-    if(this.props.update.updated) {
-      this.context.router.history.push(`/list`);
-    }
-
     return (
       <Fragment>
         <div id="board_content">
           <form>
             <div className="form-group">
-              <label for="title">제목</label>
+              <label htmlFor="title">제목</label>
               <input type="text" className="form-control" id="title" placeholder="제목을 입력하세요." value={ this.state.title || this.props.update.title } onInput={ this.changeTitle.bind(this) } />
             </div>
             <div className="form-group">
-              <label for="content">내용</label>
-              <textarea id="content" className="form-control" rows="3" value={ this.state.content || this.props.update.content }></textarea>
+              <label htmlFor="content">내용</label>
+              <textarea id="content" className="form-control" rows="3" value={ this.state.content || this.props.update.content } onInput={ this.changeContents.bind(this) }></textarea>
             </div>
             <div className="form-group">
-              <label for="title">작성자</label>
+              <label htmlFor="title">작성자</label>
               <input type="text" className="form-control" id="user_name" placeholder="작성자명" disabled="disabled" value={this.props.update.user_name} />
             </div>
           </form>
         </div>
         <div id="board_bottom" className="float-right">
-          <button type="button" className="btn btn-outline-dark btn-sm">목록</button>
+          <button type="button" className="btn btn-outline-dark btn-sm" onClick={ this.context.router.history.goBack }>취소</button>
           <button type="button" className="btn btn-outline-primary btn-sm" onClick={ this.updateBoard.bind(this) }>수정</button>
         </div>
       </Fragment>
