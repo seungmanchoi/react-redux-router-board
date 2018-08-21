@@ -11,27 +11,29 @@ const SERVER_PORT = '8800';
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    listData: state.listData
+    listData: state.list
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getListData: async () => {
+      console.log('getListData');
       dispatch({
         type: FETCH
       });
 
       try {
-        const result = await getBoardList();
-        const list = result.data.response.list;
+        //const pageNum
+        const result = await getBoardList({ pageNum: 1 });
+        const { list, page_num, page_size, totalCount} = result.data.response;
         const success = result.data.success;
 
         if(success) {
           dispatch({
             type: FETCH_SUCCESS,
             payload: {
-              list
+              list, page_num, page_size, totalCount
             }
           });
         } else {
@@ -46,6 +48,7 @@ const mapDispatchToProps = (dispatch) => {
         }
       } catch(e) {
         //e data 확인
+        console.error('error');
 
         dispatch({
           type: FETCH_FAILURE,

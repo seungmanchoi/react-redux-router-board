@@ -34,25 +34,30 @@ export default class Pagination extends Component {
      * currentBlockNum - 현재 block의 number
      * lastBlockNum - 마지막 block의 number
      * */
-    let currentPage = this.props.paginate.currentPage;
-    let lastPage = this.props.paginate.lastPage;
-    let pageCountPerBlock = this.props.paginate.pageCountPerBlock;
-    let blockStartPage = Math.ceil(currentPage / pageCountPerBlock);
-    let currentBlockNum = Math.floor(currentPage / pageCountPerBlock) || 1;
-    let lastBlockNum = Math.ceil(lastPage / pageCountPerBlock) - 1;
+    let currentPage = parseInt(this.props.list.pageNum);
+    let totalCount = parseInt(this.props.list.totalCount);
+    let pageSize = parseInt(this.props.list.pageSize);
+
+    let lastPage = Math.ceil(totalCount / pageSize);
+    let blockCountPerPage = this.props.list.blockCountPerPage;
+
+    let blockStartPage = Math.ceil(currentPage / blockCountPerPage);
+    let currentBlockNum = Math.ceil(currentPage / blockCountPerPage);
+    let lastBlockNum = Math.ceil(lastPage / blockCountPerPage) - 1;
     let blockEndPage;
 
-    blockStartPage = (blockStartPage - 1) * pageCountPerBlock + 1;
-    blockEndPage = (blockStartPage + (pageCountPerBlock - 1) > lastPage)? lastPage: blockStartPage + (pageCountPerBlock - 1);
+    blockStartPage = (blockStartPage - 1) * blockCountPerPage + 1;
+    blockEndPage = currentBlockNum * blockCountPerPage > lastPage ? lastPage : currentBlockNum * blockCountPerPage//(blockStartPage + (blockCountPerPage - 1) > lastPage)? lastPage: blockStartPage + (blockCountPerPage - 1);
 
     return {
       currentPage,
       lastPage,
-      pageCountPerBlock,
+      blockCountPerPage,
       blockStartPage,
       blockEndPage,
       currentBlockNum,
-      lastBlockNum
+      lastBlockNum,
+      totalCount
     }
   }
 
@@ -101,9 +106,9 @@ export default class Pagination extends Component {
   }
 
   render () {
-    // let paginationInfo = this.getPaginationInfo();
-    // let currentPage = paginationInfo.currentPage;
-    // let lastPage = paginationInfo.lastPage;
+    let paginationInfo = this.getPaginationInfo();
+    let currentPage = paginationInfo.currentPage;
+    let lastPage = paginationInfo.lastPage;
     // let pageCountPerBlock = paginationInfo.pageCountPerBlock;
 
     return (
@@ -121,9 +126,35 @@ export default class Pagination extends Component {
                   <span className="sr-only">Previous</span>
                 </a>
               </li>
-              <li className="page-item"><a className="page-link" href="#" onClick={ this.getBoardList.bind(this, { pageNum: 1 }) }>1</a></li>
-              <li className="page-item"><a className="page-link" href="#" onClick={ this.getBoardList.bind(this, { pageNum: 2 }) }>2</a></li>
-              <li className="page-item"><a className="page-link" href="#" onClick={ this.getBoardList.bind(this, { pageNum: 3 }) }>3</a></li>
+
+              {
+                (() => {
+                  let pages = [];
+                  let blockStartPage = paginationInfo.blockStartPage;
+                  let blockEndPage = paginationInfo.blockEndPage;
+
+                  console.log(blockStartPage, blockEndPage);
+
+                  for(var i = blockStartPage, max = blockEndPage; i <= max; i += 1) {
+                    if(currentPage === i) {
+                      pages.push(<li key={ i } className="page-item"><a className="page-link active" href="#" onClick={ this.getBoardList.bind(this, { pageNum: i }) }>{ i }</a></li>);
+                    } else {
+                      pages.push(<li key={ i } className="page-item"><a className="page-link" href="#" onClick={ this.getBoardList.bind(this, { pageNum: i }) }>{ i }</a></li>);
+                    }
+
+                    if(lastPage === i) {
+                      break;
+                    }
+                  }
+
+                  return pages;
+                })()
+              }
+
+
+              {/*<li className="page-item"><a className="page-link" href="#" onClick={ this.getBoardList.bind(this, { pageNum: 1 }) }>1</a></li>*/}
+              {/*<li className="page-item"><a className="page-link" href="#" onClick={ this.getBoardList.bind(this, { pageNum: 2 }) }>2</a></li>*/}
+              {/*<li className="page-item"><a className="page-link" href="#" onClick={ this.getBoardList.bind(this, { pageNum: 3 }) }>3</a></li>*/}
               <li className="page-item">
                 <a className="page-link" href="#" aria-label="Next">
                   <span aria-hidden="true">&raquo;</span>

@@ -6,8 +6,7 @@ import { getBoardList } from "../utils/httpRequest";
 
 const mapStateToProps = (state) => {
   return {
-    // paginate: state.paginate,
-    // query: state.query
+    list: state.list,
   };
 }
 

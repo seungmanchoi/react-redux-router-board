@@ -27,7 +27,7 @@ ReactDOM.render(
       <Switch>
         <Route exact path='/' component={ BoardListPage } />
         <Route exact path='/create' component={ BoardCreatePage } />
-        <Route path='/list' component={ BoardListPage } />
+        <Route exact path='/list' component={ BoardListPage } />
         <Route path='/update/:id' component={ BoardUpdatePage } />
         <Route path='/view/:id' component={ BoardViewPage } />
       </Switch>

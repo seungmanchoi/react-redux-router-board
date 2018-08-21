@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'proptypes';
 import ListTableContainer from '../containers/ListTableContainer';
 import PaginationContainer from '../containers/PaginationContainer';
+import queryString from 'query-string';
 // import Pagination from '../components/Pagination'; // => PaginationContainer
 
 export default class BoardListPage extends Component {
@@ -21,9 +22,8 @@ export default class BoardListPage extends Component {
   }
 
   render() {
-    console.log(this.context.router);
-    // const page = this.context.router.route.location.query.page || "1";
-    const page = "1";
+    const parsed = queryString.parse(this.context.router.route.location.search);
+    const page = parsed.page || 1;
 
     return (
       <Fragment>
@@ -31,7 +31,7 @@ export default class BoardListPage extends Component {
           <button type="button" className="btn btn-outline-primary btn-sm" onClick={ this.gotoCreatePage }>등록</button>
         </div>
         <div id="board_list">
-          <ListTableContainer />
+          <ListTableContainer page={ page } />
         </div>
         <PaginationContainer page={ page } />
       </Fragment>

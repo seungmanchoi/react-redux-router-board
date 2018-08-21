@@ -4,7 +4,7 @@ import ListItem from './ListItem';
 export default class ListTable extends Component {
 
   componentDidMount() {
-    this.props.getListData();
+    this.props.getListData({ pageNum: this.props.pageNum });
   }
 
   render () {
@@ -39,7 +39,7 @@ export default class ListTable extends Component {
 
             this.props.listData.list.map((row, key) => {
               return (
-                <ListItem { ...row } key={ key } linkToViewPage={this.linkToViewPage} />
+                <ListItem { ...row } key={ key } />
               )
             })
           }
