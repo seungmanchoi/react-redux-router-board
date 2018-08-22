@@ -9,6 +9,10 @@ export default class BoardViewPage extends Component {
     router: PropTypes.object
   }
 
+  componentDidMount() {
+    console.log('this.context.router', this.context.router);
+  }
+
   async deleteBoard() {
     const id = this.context.router.route.match.params.id;
     const result = await requestDeleteBoard(id);

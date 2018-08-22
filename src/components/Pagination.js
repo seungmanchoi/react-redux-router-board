@@ -19,7 +19,7 @@ export default class Pagination extends Component {
     /**
      * currerntPage - 현재 페이지
      * lastPage - 마지막 페이지
-     * pageCountPerBlock - block당 보여질 page정보 갯수
+     * pageSize - block당 보여질 page정보 갯수
      * blockStartPage - block의 첫 페이지 number
      * blockEndPage - block의 마지막 페이지 number
      * currentBlockNum - 현재 block의 number
@@ -32,12 +32,11 @@ export default class Pagination extends Component {
     let lastPage = Math.ceil(totalCount / pageSize);
     let blockCountPerPage = this.props.list.blockCountPerPage;
 
-    let blockStartPage = Math.ceil(currentPage / blockCountPerPage);
     let currentBlockNum = Math.ceil(currentPage / blockCountPerPage);
+    let blockStartPage = (currentBlockNum - 1) * blockCountPerPage + 1;
     let lastBlockNum = Math.ceil(lastPage / blockCountPerPage);
     let blockEndPage;
 
-    blockStartPage = (blockStartPage - 1) * blockCountPerPage + 1;
     blockEndPage = currentBlockNum * blockCountPerPage > lastPage ? lastPage : currentBlockNum * blockCountPerPage//(blockStartPage + (blockCountPerPage - 1) > lastPage)? lastPage: blockStartPage + (blockCountPerPage - 1);
 
     return {
@@ -57,7 +56,7 @@ export default class Pagination extends Component {
     const { currentBlockNum, blockCountPerPage } = paginationInfo;
 
     if(currentBlockNum > 1) {
-      //const pageNum = (currentBlockNum - 1) * blockCountPerPage - ( blockCountPerPage - 1 );
+      // const pageNum = (currentBlockNum - 1) * blockCountPerPage - ( blockCountPerPage - 1 );
       const pageNum = (currentBlockNum - 1) * blockCountPerPage;
 
       return (
@@ -125,10 +124,6 @@ export default class Pagination extends Component {
                       pages.push(<li key={ i } className="page-item active"><a className="page-link" href="#" onClick={ this.onClickBlock.bind(this, { pageNum: i }) }>{ i }</a></li>);
                     } else {
                       pages.push(<li key={ i } className="page-item"><a className="page-link" href="#" onClick={ this.onClickBlock.bind(this, { pageNum: i }) }>{ i }</a></li>);
-                    }
-
-                    if(lastPage === i) {
-                      break;
                     }
                   }
 

@@ -22,7 +22,7 @@ export default class BoardListPage extends Component {
   }
 
   render() {
-    const parsed = queryString.parse(this.context.router.route.location.search);
+    const parsed = queryString.parse(this.context.router.route.location.search); // -> toJson
     const page = parsed.page || 1;
     const page_size = parsed.page_size;
 
