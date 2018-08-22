@@ -13,7 +13,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getBoardList: async ({ pageNum, pageSize }) => {
-
       const result = await getBoardList({ pageNum, pageSize });
       const { list, page_num, page_size, totalCount} = result.data.response;
       const success = result.data.success;
@@ -26,8 +25,6 @@ const mapDispatchToProps = (dispatch) => {
           }
         })
       }
-
-      //dispatch(fetchBoardIndex(query));
     }
   }
 }

@@ -34,7 +34,7 @@ export default class Pagination extends Component {
 
     let blockStartPage = Math.ceil(currentPage / blockCountPerPage);
     let currentBlockNum = Math.ceil(currentPage / blockCountPerPage);
-    let lastBlockNum = Math.ceil(lastPage / blockCountPerPage) - 1;
+    let lastBlockNum = Math.ceil(lastPage / blockCountPerPage);
     let blockEndPage;
 
     blockStartPage = (blockStartPage - 1) * blockCountPerPage + 1;
@@ -53,40 +53,36 @@ export default class Pagination extends Component {
   }
 
   renderPrevPage() {
-    let paginationInfo = this.getPaginationInfo();
-    let currentBlockNum = paginationInfo.currentBlockNum;
+    const paginationInfo = this.getPaginationInfo();
+    const { currentBlockNum, blockCountPerPage } = paginationInfo;
 
     if(currentBlockNum > 1) {
+      //const pageNum = (currentBlockNum - 1) * blockCountPerPage - ( blockCountPerPage - 1 );
+      const pageNum = (currentBlockNum - 1) * blockCountPerPage;
+
       return (
-        <a href="#" className="btn_pg btn_prev" onClick={this.requestPrevBlock}>
-          <i className="xi-angle-left"><span className="xe-sr-only">이전</span></i>
-        </a>
+        <li className="page-item"><a className="page-link" href="#" onClick={ this.onClickBlock.bind(this, { pageNum }) }>Previous</a></li>
       )
     } else {
       return (
-        <span className="btn_pg btn_prev">
-						<i className="xi-angle-left"><span className="xe-sr-only">이전</span></i>
-				</span>
+        <li className="page-item disabled"><a className="page-link" href="#">Previous</a></li>
       )
     }
   }
 
   renderNextPage() {
-    let paginationInfo = this.getPaginationInfo();
-    let currentBlockNum = paginationInfo.currentBlockNum;
-    let lastBlockNum = paginationInfo.lastBlockNum;
+    const paginationInfo = this.getPaginationInfo();
+    const { currentBlockNum, lastBlockNum, blockCountPerPage } = paginationInfo;
 
     if(lastBlockNum > currentBlockNum) {
+      const pageNum = currentBlockNum * blockCountPerPage + 1;
+
       return (
-        <a href="#" className="btn_pg btn_next" onClick={this.requestNextBlock} >
-          <i className="xi-angle-right"><span className="xe-sr-only">다음</span></i>
-        </a>
+        <li className="page-item"><a className="page-link" href="#" onClick={ this.onClickBlock.bind(this, { pageNum }) }>Next</a></li>
       )
     } else {
       return (
-        <span href="#" className="btn_pg btn_next">
-					<i className="xi-angle-right"><span className="xe-sr-only">다음</span></i>
-				</span>
+        <li className="page-item disabled"><a className="page-link" href="#">Next</a></li>
       )
     }
   }
@@ -116,13 +112,7 @@ export default class Pagination extends Component {
         <div id="pagination">
           <nav aria-label="board pagination">
             <ul className="pagination float-right">
-              <li className="page-item">
-                <a className="page-link" href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                  <span className="sr-only">Previous</span>
-                </a>
-              </li>
-
+              { this.renderPrevPage() }
               {
                 (() => {
                   let pages = [];
@@ -145,13 +135,7 @@ export default class Pagination extends Component {
                   return pages;
                 })()
               }
-
-              <li className="page-item">
-                <a className="page-link" href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                  <span className="sr-only">Next</span>
-                </a>
-              </li>
+              { this.renderNextPage() }
             </ul>
           </nav>
         </div>
