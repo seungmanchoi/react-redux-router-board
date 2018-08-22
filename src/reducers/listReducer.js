@@ -9,7 +9,7 @@ const INITIAL_STATE = {
   pageNum: 1,
   totalCount: 0,
   totalPage: 0,
-  pageSize: 10,
+  pageSize: 5,
   blockCountPerPage: 5,
   loading: false,
   error: false,

@@ -4,7 +4,7 @@ import ListItem from './ListItem';
 export default class ListTable extends Component {
 
   componentDidMount() {
-    this.props.getListData({ pageNum: this.props.pageNum });
+    this.props.getListData({ pageNum: this.props.page, pageSize: this.props.pageSize });
   }
 
   render () {

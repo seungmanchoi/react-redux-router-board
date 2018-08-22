@@ -18,9 +18,19 @@ export const getBoard = async (id) => {
     );
 };
 
-export const getBoardList = async ({ pageNum }) => {
+export const getBoardList = async ({ pageNum, pageSize }) => {
+  var param = '?';
+
+  if (pageNum) {
+    param += `page_num=${pageNum}&`;
+  }
+
+  if (pageSize) {
+    param += `page_size=${pageSize}&`;
+  }
+
   return await axios.get(
-    `http://${SERVER_HOST}:${SERVER_PORT}/api/board?page_num=${pageNum || 1}`,
+    `http://${SERVER_HOST}:${SERVER_PORT}/api/board${param}`,
     {
       crossDomain: true,
       responseType: 'json',

@@ -24,6 +24,7 @@ export default class BoardListPage extends Component {
   render() {
     const parsed = queryString.parse(this.context.router.route.location.search);
     const page = parsed.page || 1;
+    const page_size = parsed.page_size;
 
     return (
       <Fragment>
@@ -31,9 +32,9 @@ export default class BoardListPage extends Component {
           <button type="button" className="btn btn-outline-primary btn-sm" onClick={ this.gotoCreatePage }>등록</button>
         </div>
         <div id="board_list">
-          <ListTableContainer page={ page } />
+          <ListTableContainer page={ page } pageSize={ page_size } />
         </div>
-        <PaginationContainer page={ page } />
+        <PaginationContainer page={ page } pageSize={ page_size } />
       </Fragment>
     )
   }

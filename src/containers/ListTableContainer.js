@@ -17,15 +17,14 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListData: async () => {
-      console.log('getListData');
+    getListData: async ({ pageNum, pageSize }) => {
       dispatch({
         type: FETCH
       });
 
       try {
         //const pageNum
-        const result = await getBoardList({ pageNum: 1 });
+        const result = await getBoardList({ pageNum, pageSize });
         const { list, page_num, page_size, totalCount} = result.data.response;
         const success = result.data.success;
 
