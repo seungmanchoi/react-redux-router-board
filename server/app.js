@@ -63,18 +63,28 @@ app.post('/api/board', (req, res) => {
 app.get('/api/board', (req, res) => {
   const page_num = req.query.page_num || 1;
   const page_size = req.query.page_size || 10;
+  const search_condition = req.query.search_condition || '';
+  const search_value = req.query.search_value || '';
+  const ordering = req.query.ordering || 'created_at';
+  const sort = req.query.sort || 'DESC';
   const offset = (page_num - 1) * page_size;
   let sql = `
     SELECT id, title, content, user_name, view_count, FROM_UNIXTIME(UNIX_TIMESTAMP(created_at), "%Y-%m-%d %H:%i:%s") as created_at  
     FROM board
   `;
 
+
   let sql_total = `
     SELECT count(*) as view_count 
     FROM board
   `;
 
-  sql += ` ORDER BY created_at DESC`;
+  if (search_value) {
+    sql += ` WHERE ${search_condition} like '%${search_value}%'`;
+    sql_total += ` WHERE ${search_condition} like '%${search_value}%'`;
+  }
+
+  sql += ` ORDER BY ${ordering} ${sort}`;
 
   if(page_num) {
     sql += ` LIMIT ${offset}, ${page_size}`;
@@ -82,6 +92,9 @@ app.get('/api/board', (req, res) => {
 
   const connection = getMySQLConnection();
   const formattedSql = mysql.format(sql);
+
+  console.log(sql);
+  console.log(sql_total);
 
   connection.connect((err) => {
     if (err) {
@@ -98,6 +111,10 @@ app.get('/api/board', (req, res) => {
           list: results,
           page_size,
           page_num,
+          sort,
+          ordering,
+          search_condition,
+          search_value,
           totalCount: total_result[0].view_count
         }});
         connection.end();
