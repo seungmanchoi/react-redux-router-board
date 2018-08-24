@@ -75,7 +75,7 @@ app.get('/api/board', (req, res) => {
 
 
   let sql_total = `
-    SELECT count(*) as view_count 
+    SELECT count(*) as total_count 
     FROM board
   `;
 
@@ -115,7 +115,7 @@ app.get('/api/board', (req, res) => {
           ordering,
           search_condition,
           search_value,
-          totalCount: total_result[0].view_count
+          totalCount: total_result[0].total_count
         }});
         connection.end();
       });
