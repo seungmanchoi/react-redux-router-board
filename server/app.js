@@ -79,7 +79,7 @@ app.get('/api/board', (req, res) => {
     FROM board
   `;
 
-  if (search_value) {
+  if (search_value && search_condition) {
     sql += ` WHERE ${search_condition} like '%${search_value}%'`;
     sql_total += ` WHERE ${search_condition} like '%${search_value}%'`;
   }
